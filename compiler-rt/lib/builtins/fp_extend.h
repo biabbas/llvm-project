@@ -112,7 +112,11 @@ static const int dstSigFracBits = 52;
 static const int dstExpBits = 11;
 
 #elif defined DST_QUAD
+#if defined DST_LONG_DOUBLE
+typedef long double dst_t;
+#else
 typedef tf_float dst_t;
+#endif
 typedef __uint128_t dst_rep_t;
 #define DST_REP_C (__uint128_t)
 static const int dstBits = sizeof(dst_t) * CHAR_BIT;
