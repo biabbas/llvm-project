@@ -51,6 +51,8 @@ StringRef Triple::getArchTypeName(ArchType Kind) {
   case mips64el:       return "mips64el";
   case mips:           return "mips";
   case mipsel:         return "mipsel";
+  case moxie:          return "moxie";
+  case moxiebe:        return "moxiebe";
   case msp430:         return "msp430";
   case nvptx64:        return "nvptx64";
   case nvptx:          return "nvptx";
@@ -417,6 +419,8 @@ Triple::ArchType Triple::getArchTypeForLLVMName(StringRef Name) {
     .Case("mipsel", mipsel)
     .Case("mips64", mips64)
     .Case("mips64el", mips64el)
+    .Case("moxie", moxie)
+    .Case("moxiebe", moxiebe)
     .Case("msp430", msp430)
     .Case("ppc64", ppc64)
     .Case("ppc32", ppc)
@@ -576,6 +580,8 @@ static Triple::ArchType parseArch(StringRef ArchName) {
           .Case("riscv64", Triple::riscv64)
           .Case("hexagon", Triple::hexagon)
           .Cases("s390x", "systemz", Triple::systemz)
+          .Case("moxie", Triple::moxie)
+          .Case("moxiebe", Triple::moxiebe)
           .Case("sparc", Triple::sparc)
           .Case("sparcel", Triple::sparcel)
           .Cases("sparcv9", "sparc64", Triple::sparcv9)
@@ -941,6 +947,8 @@ static Triple::ObjectFormatType getDefaultFormat(const Triple &T) {
   case Triple::renderscript64:
   case Triple::riscv32:
   case Triple::riscv64:
+  case Triple::moxie:
+  case Triple::moxiebe:
   case Triple::shave:
   case Triple::sparc:
   case Triple::sparcel:
@@ -1635,6 +1643,8 @@ unsigned Triple::getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
   case llvm::Triple::r600:
   case llvm::Triple::renderscript32:
   case llvm::Triple::riscv32:
+  case llvm::Triple::moxie:
+  case llvm::Triple::moxiebe:
   case llvm::Triple::shave:
   case llvm::Triple::sparc:
   case llvm::Triple::sparcel:
@@ -1716,6 +1726,8 @@ Triple Triple::get32BitArchVariant() const {
   case Triple::kalimba:
   case Triple::lanai:
   case Triple::loongarch32:
+  case Triple::moxie:
+  case Triple::moxiebe:
   case Triple::m68k:
   case Triple::mips:
   case Triple::mipsel:
@@ -1781,6 +1793,8 @@ Triple Triple::get64BitArchVariant() const {
   case Triple::kalimba:
   case Triple::lanai:
   case Triple::m68k:
+  case Triple::moxie:
+  case Triple::moxiebe:
   case Triple::msp430:
   case Triple::r600:
   case Triple::shave:
@@ -1906,6 +1920,7 @@ Triple Triple::getBigEndianArchVariant() const {
     break;
   case Triple::ppcle:   T.setArch(Triple::ppc);        break;
   case Triple::ppc64le: T.setArch(Triple::ppc64);      break;
+  case Triple::moxie:   T.setArch(Triple::moxiebe);    break;
   case Triple::sparcel: T.setArch(Triple::sparc);      break;
   case Triple::tcele:   T.setArch(Triple::tce);        break;
   default:
@@ -1943,6 +1958,7 @@ Triple Triple::getLittleEndianArchVariant() const {
     break;
   case Triple::ppc:        T.setArch(Triple::ppcle);    break;
   case Triple::ppc64:      T.setArch(Triple::ppc64le);  break;
+  case Triple::moxiebe:    T.setArch(Triple::moxie);    break;
   case Triple::sparc:      T.setArch(Triple::sparcel);  break;
   case Triple::tce:        T.setArch(Triple::tcele);    break;
   default:
@@ -1982,6 +1998,7 @@ bool Triple::isLittleEndian() const {
   case Triple::riscv32:
   case Triple::riscv64:
   case Triple::shave:
+  case Triple::moxie:
   case Triple::sparcel:
   case Triple::spir64:
   case Triple::spir:

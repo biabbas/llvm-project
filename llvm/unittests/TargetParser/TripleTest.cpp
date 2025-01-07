@@ -261,6 +261,18 @@ TEST(TripleTest, ParsedIDs) {
   EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
   EXPECT_EQ(Triple::UnknownOS, T.getOS());
 
+  T = Triple("moxie-unknown-unknown");
+  EXPECT_EQ(Triple::moxie, T.getArch());
+  EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
+  EXPECT_EQ(Triple::UnknownOS, T.getOS());
+  EXPECT_EQ(Triple::UnknownEnvironment, T.getEnvironment());
+
+  T = Triple("moxiebe-unknown-unknown");
+  EXPECT_EQ(Triple::moxiebe, T.getArch());
+  EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
+  EXPECT_EQ(Triple::UnknownOS, T.getOS());
+  EXPECT_EQ(Triple::UnknownEnvironment, T.getEnvironment());
+
   T = Triple("sparcel-unknown-unknown");
   EXPECT_EQ(Triple::sparcel, T.getArch());
   EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
@@ -1582,6 +1594,18 @@ TEST(TripleTest, BitWidthChecks) {
   EXPECT_TRUE(T.isArch64Bit());
   EXPECT_EQ(T.getArchPointerBitWidth(), 64U);
 
+  T.setArch(Triple::moxie);
+  EXPECT_FALSE(T.isArch16Bit());
+  EXPECT_TRUE(T.isArch32Bit());
+  EXPECT_FALSE(T.isArch64Bit());
+  EXPECT_EQ(T.getArchPointerBitWidth(), 32U);
+
+  T.setArch(Triple::moxiebe);
+  EXPECT_FALSE(T.isArch16Bit());
+  EXPECT_TRUE(T.isArch32Bit());
+  EXPECT_FALSE(T.isArch64Bit());
+  EXPECT_EQ(T.getArchPointerBitWidth(), 32U);
+
   T.setArch(Triple::msp430);
   EXPECT_TRUE(T.isArch16Bit());
   EXPECT_FALSE(T.isArch32Bit());
@@ -1890,6 +1914,14 @@ TEST(TripleTest, BitWidthArchVariants) {
   EXPECT_EQ(Triple::csky, T.get32BitArchVariant().getArch());
   EXPECT_EQ(Triple::UnknownArch, T.get64BitArchVariant().getArch());
 
+  T.setArch(Triple::moxie);
+  EXPECT_EQ(Triple::moxie, T.get32BitArchVariant().getArch());
+  EXPECT_EQ(Triple::UnknownArch, T.get64BitArchVariant().getArch());
+
+  T.setArch(Triple::moxiebe);
+  EXPECT_EQ(Triple::moxiebe, T.get32BitArchVariant().getArch());
+  EXPECT_EQ(Triple::UnknownArch, T.get64BitArchVariant().getArch());
+
   T.setArch(Triple::loongarch32);
   EXPECT_EQ(Triple::loongarch32, T.get32BitArchVariant().getArch());
   EXPECT_EQ(Triple::loongarch64, T.get64BitArchVariant().getArch());
@@ -2039,6 +2071,14 @@ TEST(TripleTest, EndianArchVariants) {
   EXPECT_EQ(Triple::mipsel, T.getLittleEndianArchVariant().getArch());
   EXPECT_EQ(Triple::MipsSubArch_r6,
             T.getLittleEndianArchVariant().getSubArch());
+
+  T.setArch(Triple::moxie);
+  EXPECT_EQ(Triple::moxiebe, T.getBigEndianArchVariant().getArch());
+  EXPECT_EQ(Triple::moxie, T.getLittleEndianArchVariant().getArch());
+
+  T.setArch(Triple::moxiebe);
+  EXPECT_EQ(Triple::moxiebe, T.getBigEndianArchVariant().getArch());
+  EXPECT_EQ(Triple::moxie, T.getLittleEndianArchVariant().getArch());
 
   T.setArch(Triple::ppc);
   EXPECT_EQ(Triple::ppc, T.getBigEndianArchVariant().getArch());
