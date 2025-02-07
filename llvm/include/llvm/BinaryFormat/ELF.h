@@ -323,6 +323,7 @@ enum {
   EM_VE = 251,            // NEC SX-Aurora VE
   EM_CSKY = 252,          // C-SKY 32-bit processor
   EM_LOONGARCH = 258,     // LoongArch
+  EM_MOXIE = 260,
 };
 
 // Object file classes.
@@ -723,6 +724,10 @@ enum : unsigned {
   EF_SPARCV9_RMO = 0x2,
 };
 
+// ELF Relocation type for Moxie
+enum{
+#include "ELFRelocs/Moxie.def"
+};
 // ELF Relocation type for Sparc.
 enum {
 #include "ELFRelocs/Sparc.def"

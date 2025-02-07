@@ -1312,6 +1312,8 @@ StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
     case ELF::EM_SPARC:
     case ELF::EM_SPARC32PLUS:
       return "elf32-sparc";
+    case ELF::EM_MOXIE:
+      return IsLittleEndian ? "elf32-moxie" : "elf32-moxiebe";
     case ELF::EM_AMDGPU:
       return "elf32-amdgpu";
     case ELF::EM_LOONGARCH:
